@@ -14,22 +14,50 @@ app.get("/",(request,response)=>{
         ok:true,
         data:people
     });
+    
 });
 
 app.post("/create",function(req,res){
     const data = req.body;
     data.id =people.length +1;
-   people.push(req.body);
+   people.push(data);
     return res.status(201).json({
         ok:true,
-        data:"Persona creada",
+        data:data,
     })
 })
 
+app.put('/update/:id',(req,res)=>{
+    const peopleId = req.params.id;
+    const body = req.body;
+
+    const indexElement= people.findIndex((obj => obj.id == peopleId ));
+    people[indexElement].nombre = body.nombre;
+    people[indexElement].apellido = body.apellido;
+    const data =  people
+    return res.json({
+        ok:true,
+        data: data
+    })
+})
+
+app.delete('/delete/:id', (req,res) =>{
+    const peopleId = req.params.id;
+    const body = req.body;
+    const indexElement = people.findIndex((obj => obj.id==peopleId));
+    people.splice(indexElement,1);
+
+    return res.json({
+        ok:true,
+        data:people
+    })
+})
+
+
 app.listen(6004, () =>console.log(`El servidor inicio en http://localhost:6004`));
 
-//update de una persona
-//delete
+//update de una persona x
+//delete x
 // word de canvas fotos del codigo en postman o rappi appi
 //rapi api
 //subir al  github enviar link
